@@ -1,36 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-// const jobs = [
-//   {
-//     id: 1,
-//     title: "Frontend Developer",
-//     company: "Google",
-//     location: "Delhi",
-//     type: "Full-time",
-//     skills: ["React", "JavaScript", "CSS"]
-//   },
-//   {
-//     id: 2,
-//     title: "Backend Developer",
-//     company: "Microsoft",
-//     location: "Remote",
-//     type: "Remote",
-//     skills: ["Node.js", "MongoDB", "Express"]
-//   },
-//   {
-//     id: 3,
-//     title: "Web Developer Intern",
-//     company: "StartupX",
-//     location: "Bangalore",
-//     type: "Internship",
-//     skills: ["HTML", "CSS", "JavaScript"]
-//   }
-// ];
-
+import { useLocation } from "react-router-dom";
 
 const Jobs = () => {
+  const { state } = useLocation();
+  const userL = JSON.parse(
+    localStorage.getItem("userLogo") || "{}"
+  );
 
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +16,6 @@ const Jobs = () => {
     const fetchJobs = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/jobs");
-        console.log(res.data.jobs);
         setJobs(res.data.jobs);
       } catch (error) {
         console.log(error.message);
@@ -69,11 +45,10 @@ const Jobs = () => {
           NextHire
         </h1>
 
-        <Link
-          to="/login"
-          className="text-blue-600 font-medium hover:underline"
-        >
-          Login
+        <Link to="/profile">
+          <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold cursor-pointer">
+            {userL?.name?.charAt(0)?.toUpperCase() || "U"}
+          </div>
         </Link>
       </header>
 
