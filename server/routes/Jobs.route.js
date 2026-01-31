@@ -5,7 +5,7 @@ const recruiterOnly = require("../middlewares/recruiter.middleware");
 const router = express.Router();
 
 router.post("/",protect, recruiterOnly ,createJob);
-router.get("/",protect, getAllJobs);
+router.get("/", getAllJobs);
 router.get("/:id", getJobById);
 
 module.exports = router;
