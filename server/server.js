@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 const userAuth = require('./routes/Auth.route.js')
 const jobs = require('./routes/Jobs.route.js')
+const profile = require('./routes/Profile.route.js')
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -15,9 +16,11 @@ app.use(
   })
 );
 app.use(express.json());
+
 //routes
 app.use('/api/auth',userAuth); //auth
 app.use('/api/jobs',jobs) //jobs
+app.use('/api/profile',profile) //profile
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))

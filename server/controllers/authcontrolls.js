@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
         });
 
         res.status(201).json({
-            message: "User registered successfully",
+            message: "registered successfully",
             user
         });
     } catch (error) {
@@ -70,5 +70,6 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
     res.clearCookie("token");
-    res.json({message: "you logout.."});
+    res.json({message: "logout successfully"});
 };
+

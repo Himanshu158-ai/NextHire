@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Profile = () => {
-    // Dummy data (later backend se aayega)
-    const user = {
-        name: "Himanshu Singh",
-        email: "seeker@test.com",
-        role: "seeker", // seeker | recruiter
-        skills: ["React", "Node.js", "MongoDB"],
-        education: "B.Tech Computer Science",
-        experience: "Fresher",
-        location: "Delhi"
-    };
 
     const nevigate = useNavigate();
+    const _id = localStorage.getItem("userID");
+    const [user, setuser] = useState([]);
+
+    useEffect(()=>{
+        const getuser = async()=>{
+            try {
+                const res = await axios.post("http://localhost:5000/api/profile", {_id});
+                setuser(res.data.user);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        getuser();
+    },[]);
 
     async function logout(){
         const res = await axios.get("http://localhost:5000/api/auth/logout");
         localStorage.removeItem("token");
+        localStorage.removeItem("userID");
         localStorage.removeItem("userLogo");
-        console.log(res.data.message);
+        toast.success(res.data.message);
         nevigate('/');
     }
 
@@ -113,13 +119,13 @@ const Profile = () => {
                             Skills
                         </p>
 
-                        {user.skills.length === 0 ? (
+                        {user?.skills?.length === 0 ? (
                             <p className="text-gray-400 text-sm">
                                 No skills added
                             </p>
                         ) : (
                             <div className="flex flex-wrap gap-2">
-                                {user.skills.map((skill, index) => (
+                                {user?.skills?.map((skill, index) => (
                                     <span
                                         key={index}
                                         className="bg-blue-50 text-blue-600 px-3 py-1 rounded text-sm"

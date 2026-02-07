@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
 
-// Dummy data (later backend se aayega)
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -16,7 +15,6 @@ const JobDetails = () => {
     const fetchJobsbyID = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/jobs/${id}`);
-        console.log(res.data);
         setJob(res.data);
       } catch (error) {
         console.log(error.message);
@@ -31,7 +29,7 @@ const JobDetails = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading jobs...
+        Loading job...
       </div>
     );
   }

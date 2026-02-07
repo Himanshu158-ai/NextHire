@@ -37,7 +37,29 @@ const Jobs = () => {
 
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col relative">
+      {/* Add button */}
+      <Link to="/jobcreate">
+        <button
+          className="
+    fixed bottom-6 left-1/2 -translate-x-1/2
+    w-10 h-10
+    rounded-full
+    bg-blue-600
+    text-white text-3xl
+    shadow-xl
+    hover:bg-blue-700
+    active:scale-95
+    transition
+    z-50
+    flex justify-center items-center
+  "
+        >
+          +
+        </button>
+      </Link>
+
+
 
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 md:px-16 py-4 border-b">

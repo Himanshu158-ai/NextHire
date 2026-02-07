@@ -1,8 +1,34 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [role, setRole] = useState("seeker");
+  const [name, setname] = useState('');
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('')
+  const nevigate = useNavigate();
+
+  async function send(e) {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        {
+          name,
+          email,
+          password,
+          role,
+        }
+      );
+      nevigate('/');
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response?.data.message || error.message);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -46,6 +72,9 @@ const Signup = () => {
                 type="text"
                 placeholder="Enter your name"
                 className="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                onChange={(e)=>{
+                  setname(e.target.value);
+                }}
               />
             </div>
 
@@ -58,6 +87,9 @@ const Signup = () => {
                 type="email"
                 placeholder="Enter your email"
                 className="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                onChange={(e)=>{
+                  setemail(e.target.value);
+                }}
               />
             </div>
 
@@ -70,6 +102,9 @@ const Signup = () => {
                 type="password"
                 placeholder="Create a password"
                 className="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                onChange={(e)=>{
+                  setpassword(e.target.value);
+                }}
               />
             </div>
 
@@ -112,6 +147,7 @@ const Signup = () => {
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-md text-base font-medium hover:bg-blue-700 transition"
+              onClick={(send)}
             >
               Sign Up
             </button>

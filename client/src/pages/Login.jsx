@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
+import { toast } from "react-toastify";
 
 
 const Login = () => {
@@ -25,19 +26,20 @@ const Login = () => {
 
       // success response
       if (res.statusText === "OK") {
+        // console.log(res.data.user);
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem(
-          "userLogo",
+        localStorage.setItem("userID", res.data.user._id);
+        localStorage.setItem("userLogo",
           JSON.stringify({ name: res.data.user.name })
         );
+        localStorage.setItem("userRole", res.data.user.role);
 
         nevigate('/jobs');
-        alert("Logedin..");
+        toast.success("login succesfully");
       }
 
     } catch (error) {
-      console.log(error.response?.data || error.message);
-      alert(error.response?.data.message || error.message);
+      toast.error(error.response?.data.message || error.message);
     }
   }
 
