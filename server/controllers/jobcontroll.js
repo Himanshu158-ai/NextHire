@@ -67,3 +67,34 @@ exports.getJobById = async (req, res) => {
     res.status(500).json({ message: "Invalid Job ID" });
   }
 };
+
+//job delete
+exports.deleteJob = async (req, res) => {
+  try {
+    const job = await Job.findByIdAndDelete(req.params.id);
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.status(200).json({ message: "Job deleted successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Invalid Job ID" });
+  }
+};  
+
+
+//get my_job
+exports.getMyJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find({ postedBy: req.params.id }).sort({ createdAt: -1 });
+    res.status(200).json({
+      count: jobs.length,
+      jobs
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

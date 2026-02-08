@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import {axios} from "axios"
+// import {axios} from "axios"
+import axios from "axios"
+import { API_URL } from "../config/api";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 const CreateJob = () => {
+  const navigate = useNavigate();
   const [jobData, setJobData] = useState({
     title: "",
     company: "",
@@ -10,8 +16,7 @@ const CreateJob = () => {
     salary: "",
     experienceRequired: "",
     skillsRequired: [],
-    description: "",
-    lastDateToApply: ""
+    description: ""
   });
 
   const [skillInput, setSkillInput] = useState("");
@@ -38,17 +43,26 @@ const CreateJob = () => {
     setJobData({ ...jobData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Job Data:", jobData);
+    // console.log("Job Data:", jobData);
 
     // Later axios call here
-    
+    try {
+      const res = await axios.post(`${API_URL}/api/jobs`, jobData, {
+        withCredentials: true,
+      })
+      
+      toast.success("Job created successfully");
+      navigate("/jobs");
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+    }
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      
+
       {/* Header */}
       <header className="flex items-center justify-between px-6 md:px-16 py-4 border-b">
         <h1 className="text-xl md:text-2xl font-bold text-blue-600">
@@ -163,19 +177,6 @@ const CreateJob = () => {
                   value={jobData.experienceRequired}
                   onChange={handleChange}
                   placeholder="e.g. 0-2 years"
-                  className="w-full border rounded-md px-4 py-2 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Last Date to Apply
-                </label>
-                <input
-                  type="date"
-                  name="lastDateToApply"
-                  value={jobData.lastDateToApply}
-                  onChange={handleChange}
                   className="w-full border rounded-md px-4 py-2 text-sm"
                 />
               </div>

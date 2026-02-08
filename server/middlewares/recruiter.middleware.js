@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const recruiterOnly = (req, res, next) => {
-  const token = req.cookies.token; // 🍪 read cookie
-
+  const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({ message: "Not authorized, no token" });
   }

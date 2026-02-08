@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; 
+import { API_URL } from "../config/api";
 
 
 const Login = () => {
@@ -14,19 +15,18 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email,
           password,
         },
         {
-          withCredentials: true, // 👈 agar cookie/JWT cookie use kar raha hai
+          withCredentials: true, 
         }
       );
 
       // success response
       if (res.statusText === "OK") {
-        // console.log(res.data.user);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userID", res.data.user._id);
         localStorage.setItem("userLogo",

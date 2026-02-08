@@ -2,32 +2,63 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../config/api";
 
 const Profile = () => {
 
     const nevigate = useNavigate();
     const _id = localStorage.getItem("userID");
     const [user, setuser] = useState([]);
+    const [jobs, setjobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-        const getuser = async()=>{
+    useEffect(() => {
+        const getuser = async () => {
             try {
-                const res = await axios.post("http://localhost:5000/api/profile", {_id});
+                const res = await axios.post(`${API_URL}/api/profile`, { _id });
                 setuser(res.data.user);
+                setLoading(false);
             } catch (error) {
                 console.log(error.message);
             }
         }
         getuser();
-    },[]);
+    }, []);
 
-    async function logout(){
-        const res = await axios.get("http://localhost:5000/api/auth/logout");
+    useEffect(() => {
+        const getjobs = async () => {
+            try {
+                const res = await axios.post(`${API_URL}/api/jobs/${_id}`);
+                setjobs(res.data.jobs);
+                setLoading(false);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        getjobs();
+    }, []);
+
+    async function logout() {
+        const res = await axios.get(`${API_URL}/api/auth/logout`);
         localStorage.removeItem("token");
         localStorage.removeItem("userID");
         localStorage.removeItem("userLogo");
         toast.success(res.data.message);
         nevigate('/');
+    }
+
+    async function deleteJob(id) {
+        const res = await axios.delete(`${API_URL}/api/jobs/${id}`);
+        toast.success(res.data.message);
+        nevigate('/profile');
+    }
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                Loading...
+            </div>
+        );
     }
 
     return (
@@ -139,6 +170,65 @@ const Profile = () => {
 
                 </div>
             </main>
+
+            <main className="flex-1 px-4 sm:px-6 md:px-16 py-10 justify-center items-center">
+                <h2 className="text-2xl md:text-3xl text-gray-600 mb-6 text-center font-semibold">
+                    Your Posted Jobs
+                </h2>
+
+                {jobs.length === 0 ? <h3 className="text-center text-gray-800">No jobs mention</h3> : <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {jobs.map(job => (
+                        <div
+                            key={job._id}
+                            className="border rounded-lg p-6 hover:shadow-sm transition"
+                        >
+                            <h3 className="text-lg font-semibold text-gray-900">
+                                {job.title}
+                            </h3>
+
+                            <p className="text-gray-600 mt-1">
+                                {job.company}
+                            </p>
+
+                            <div className="text-sm text-gray-500 mt-2">
+                                📍 {job.location} • {job.jobType}
+                            </div>
+
+                            {/* Skills */}
+                            <div className="flex flex-wrap gap-2 mt-4">
+                                {job.skillsRequired.map((skill, index) => (
+                                    <span
+                                        key={index}
+                                        className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {/* Action */}
+
+                            <div className="flex justify-between">
+                                <Link
+                                    to={`/jobs/${job._id}`}
+                                    className="inline-block mt-5 text-blue-600 font-medium hover:underline"
+                                >
+                                    View Details →
+                                </Link>
+                                <button className="inline-block mt-5 text-red-600 font-medium hover:underline" onClick={() => deleteJob(job._id)}>
+                                    Delete Job
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>}
+            </main>
+
+            <footer className="flex items-center justify-center py-4 border-t">
+                <p className="text-sm text-gray-500">
+                    &copy; 2023 NextHire. All rights reserved.
+                </p>
+            </footer>
         </div>
     );
 };

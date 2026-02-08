@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {toast} from "react-toastify"
+import { API_URL } from "../config/api";
 
 const EditProfile = () => {
   const _id = localStorage.getItem("userID");
@@ -17,10 +18,7 @@ const EditProfile = () => {
 
   async function change() {
     try {
-      const res = await axios.patch(
-        "http://localhost:5000/api/profile/edit",
-        { user }
-      );
+      const res = await axios.patch(`${API_URL}/api/profile/edit`, { user });
       toast.success(res.data.message);
     } catch (error) {
       console.log(error.message);
@@ -32,10 +30,7 @@ const EditProfile = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.post(
-          "http://localhost:5000/api/profile",
-          { _id }
-        );
+        const res = await axios.post(`${API_URL}/api/profile`, { _id });
 
         setUser({
           ...res.data.user,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import {API_URL} from '../config/api'
 
 const Jobs = () => {
   const { state } = useLocation();
@@ -15,7 +16,7 @@ const Jobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/jobs");
+        const res = await axios.get(`${API_URL}/api/jobs`);
         setJobs(res.data.jobs);
       } catch (error) {
         console.log(error.message);
@@ -39,7 +40,7 @@ const Jobs = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col relative">
       {/* Add button */}
-      <Link to="/jobcreate">
+      <Link to="/createjob">
         <button
           className="
     fixed bottom-6 left-1/2 -translate-x-1/2
@@ -59,8 +60,6 @@ const Jobs = () => {
         </button>
       </Link>
 
-
-
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 md:px-16 py-4 border-b">
         <h1 className="text-xl md:text-2xl font-bold text-blue-600">
@@ -77,7 +76,7 @@ const Jobs = () => {
       {/* Jobs Feed */}
       <main className="flex-1 px-4 sm:px-6 md:px-16 py-10">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
-          Latest Jobs
+          Trending Jobs
         </h2>
 
         {jobs.length === 0 ? <h1>No jobs mention</h1> : <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,6 +120,11 @@ const Jobs = () => {
           ))}
         </div>}
       </main>
+      <footer className="flex items-center justify-center py-4 border-t">
+        <p className="text-sm text-gray-500">
+          © {new Date().getFullYear()} NextHire. All rights reserved.
+        </p>
+      </footer>
 
     </div>
   );

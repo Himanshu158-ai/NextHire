@@ -6,11 +6,12 @@ const RecruiterRoute = ({ children }) => {
     const role = localStorage.getItem("userRole");
 
     if (!token) {
+        toast.error("You are not authorized to create job!");
         return <Navigate to="/login" replace />;
     }
 
     if (role !== "recruiter") {
-        toast.error("you are not recuiter!");
+        toast.error("You are not authorized to create job!");
         return <Navigate to="/profile" replace />;
     }
 
