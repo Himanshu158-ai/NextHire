@@ -52,8 +52,8 @@ exports.login = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,     // JS cannot access cookie
-            secure: false,      // true in production (HTTPS)
-            sameSite: "strict", // CSRF protection
+            secure: true,      // true in production (HTTPS)
+            sameSite: "none", // CSRF protection
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 

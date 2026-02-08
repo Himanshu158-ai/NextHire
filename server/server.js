@@ -8,7 +8,9 @@ const profile = require('./routes/Profile.route.js')
 const cookieParser = require("cookie-parser");
 
 const app = express();
+
 app.use(cookieParser());
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: ["https://next-hire-gamma.vercel.app","http://localhost:5173"], // frontend URL
@@ -16,6 +18,7 @@ app.use(
   })
 );
 app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use('/api/auth',userAuth); //auth
