@@ -12,6 +12,7 @@ const Login = () => {
 
   async function send(e) {
     e.preventDefault();
+    console.log("clicked");
 
     try {
       const res = await axios.post(
@@ -26,7 +27,8 @@ const Login = () => {
       );
 
       // success response
-      if (res.statusText === "OK") {
+      
+      if (res.status === 200) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userID", res.data.user._id);
         localStorage.setItem("userLogo",
