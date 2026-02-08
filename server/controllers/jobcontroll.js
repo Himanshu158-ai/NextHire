@@ -1,4 +1,4 @@
-const Job = require('../models/jobs')
+const Job = require('../models/Jobs')
 
 // Recruiter creates a job
 exports.createJob = async (req, res) => {
