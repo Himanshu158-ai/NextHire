@@ -45,7 +45,6 @@ const CreateJob = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("Job Data:", jobData);
 
     // Later axios call here
     try {

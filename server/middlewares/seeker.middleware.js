@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const recruiterOnly = (req, res, next) => {
+const seekerOnly = (req, res, next) => {
   const token = req.cookies.token;
   console.log(token);
   if (!token) {
@@ -13,10 +13,10 @@ const recruiterOnly = (req, res, next) => {
     req.user = decoded;
 
     // Role check
-    if (req.user.role === "recruiter") {
+    if (req.user.role === "seeker") {
       next(); // allow access
     } else {
-      return res.status(403).json({ message: "Recruiter access only" });
+      return res.status(403).json({ message: "Seeker access only" });
     }
 
   } catch (err) {
@@ -24,4 +24,4 @@ const recruiterOnly = (req, res, next) => {
   }
 };
 
-module.exports = recruiterOnly;
+module.exports = seekerOnly;

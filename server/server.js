@@ -6,6 +6,7 @@ const userAuth = require('./routes/Auth.route.js')
 const jobs = require('./routes/Jobs.route.js')
 const profile = require('./routes/Profile.route.js')
 const cookieParser = require("cookie-parser");
+const apply = require('./routes/ApplyJobs.route.js')
 
 const app = express();
 app.use(cookieParser());
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/api/auth',userAuth); //auth
 app.use('/api/jobs',jobs) //jobs
 app.use('/api/profile',profile) //profile
+app.use('/api/apply',apply) //apply
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))

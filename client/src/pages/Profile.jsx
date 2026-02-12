@@ -41,6 +41,8 @@ const Profile = () => {
     async function logout() {
         const res = await axios.get(`${API_URL}/api/auth/logout`);
         localStorage.removeItem("token");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("user");
         localStorage.removeItem("userID");
         localStorage.removeItem("userLogo");
         toast.success(res.data.message);
@@ -171,6 +173,7 @@ const Profile = () => {
                 </div>
             </main>
 
+            {/* Posted Jobs */}
             <main className="flex-1 px-4 sm:px-6 md:px-16 py-10 justify-center items-center">
                 <h2 className="text-2xl md:text-3xl text-gray-600 mb-6 text-center font-semibold">
                     Your Posted Jobs
@@ -182,9 +185,12 @@ const Profile = () => {
                             key={job._id}
                             className="border rounded-lg p-6 hover:shadow-sm transition"
                         >
-                            <h3 className="text-lg font-semibold text-gray-900">
-                                {job.title}
-                            </h3>
+                            <div className="flex justify-between">
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    {job.title}
+                                </h3>
+                                <Link to={`/jobs/submissions/${job._id}`} className="text-sm text-blue-400 underline">Submissions</Link>
+                            </div>
 
                             <p className="text-gray-600 mt-1">
                                 {job.company}
@@ -224,6 +230,7 @@ const Profile = () => {
                 </div>}
             </main>
 
+            {/* Footer */}
             <footer className="flex items-center justify-center py-4 border-t">
                 <p className="text-sm text-gray-500">
                     &copy; 2023 NextHire. All rights reserved.

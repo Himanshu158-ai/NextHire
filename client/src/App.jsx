@@ -11,6 +11,7 @@ import EditProfile from "./pages/EditProfile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateJob from "./pages/CreateJob";
+import SubmissionList from "./pages/SubmissionList";
 
 function App() {
   return (
@@ -22,8 +23,9 @@ function App() {
         <Route path="/editprofile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
-        <Route path="/jobs/:id" element={<JobDetails />} />
+        <Route path="/jobs/:id" element={<ProtectedRoute><JobDetails /></ProtectedRoute>} />
         <Route path="/createjob" element={<RecruiterRoute><CreateJob /></RecruiterRoute>} />
+        <Route path="/jobs/submissions/:id" element={<RecruiterRoute><SubmissionList /></RecruiterRoute>} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
