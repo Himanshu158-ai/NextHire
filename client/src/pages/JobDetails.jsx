@@ -4,12 +4,23 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
 import {API_URL} from '../config/api'
+import { toast } from "react-toastify";
 
 
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState({});
   const [loading, setLoading] = useState(true);
+  const userID = localStorage.getItem("userID");
+
+  const handleApply = async () => {
+    try {
+      const res = await axios.post(`${API_URL}/api/apply/`, { jobId: id, userId: userID },{withCredentials:true},);
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error("You are not allowed to apply");
+    }
+  };
 
 
   useEffect(() => {
@@ -144,6 +155,7 @@ const JobDetails = () => {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <button
               className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-md text-base font-medium hover:bg-blue-700 transition"
+              onClick={handleApply}
             >
               Apply Now
             </button>
