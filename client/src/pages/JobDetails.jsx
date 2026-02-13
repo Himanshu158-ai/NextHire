@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
-import {API_URL} from '../config/api'
+import { API_URL } from '../config/api'
 import { toast } from "react-toastify";
 
 
@@ -12,16 +12,41 @@ const JobDetails = () => {
   const [job, setJob] = useState({});
   const [loading, setLoading] = useState(true);
   const userID = localStorage.getItem("userID");
+  const [applied, setApplied] = useState(false);
+  const [status, setStatus] = useState('not_applied');
 
   const handleApply = async () => {
     try {
-      const res = await axios.post(`${API_URL}/api/apply/`, { jobId: id, userId: userID },{withCredentials:true},);
+      const res = await axios.post(`${API_URL}/api/apply/`, { jobId: id, userId: userID }, { withCredentials: true },);
       toast.success(res.data.message);
+      setStatus('pending');
+      setApplied(true);
     } catch (error) {
       toast.error("You are not allowed to apply");
     }
   };
 
+  useEffect(() => {
+    const fetchUserSubmissions = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/apply/user/${id}`, { withCredentials: true });
+        if (res.data.success) {
+          const submissionStatus = res.data.submissions.status;
+          setApplied(true);
+          setStatus(submissionStatus);
+        } else {
+          setApplied(false);
+          setStatus('not_applied');
+        }
+      } catch (error) {
+        setApplied(false);
+        setStatus('not_applied');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserSubmissions();
+  }, [id]); // proper dependency
 
   useEffect(() => {
     const fetchJobsbyID = async () => {
@@ -154,11 +179,15 @@ const JobDetails = () => {
           {/* Footer */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <button
+              disabled={status !== 'not_applied'}
               className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-md text-base font-medium hover:bg-blue-700 transition"
               onClick={handleApply}
             >
-              Apply Now
+              {
+                status === "pending" ? "Pending..." : status === "shortlisted" ? "Shortlisted 🎉 wait for recruiter call~" : "Apply Now"
+              }
             </button>
+
 
             {job.postedBy && (
               <p className="text-sm text-gray-600">
