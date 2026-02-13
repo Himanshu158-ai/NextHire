@@ -3,7 +3,7 @@ const Apply = require("../models/Apply");
 const applyJob = async (req, res) => {
     try {
         const { jobId, userId } = req.body;
-        const apply = new Apply({ job:jobId, user:userId });
+        const apply = new Apply({ job: jobId, user: userId });
         await apply.save();
         res.status(200).json({ success: true, message: "Job applied successfully", apply });
     } catch (error) {
@@ -35,10 +35,31 @@ const deleteSubmission = async (req, res) => {
 const updateSubmission = async (req, res) => {
     try {
         const { id } = req.params;
-        const submission = await Apply.findByIdAndUpdate(id, {status:"shortlisted"});
+        const submission = await Apply.findByIdAndUpdate(id, { status: "shortlisted" });
         res.status(200).json({ success: true, message: "Submission updated successfully", submission });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-module.exports = { applyJob, findSubmissions, deleteSubmission, updateSubmission };  
+
+const findUserSubmissions = async (req, res) => {
+    try {
+        const { id } = req.user;
+        const submissions = await Apply.findOne({
+            $and: [
+                { user: id },
+                { job: req.params.jobId }
+            ]
+        }).populate("job", "title company location");
+
+        if(submissions){
+            res.status(200).json({ success: true, submissions });
+        }else{
+            res.status(200).json({ success: false, message: "No submissions found" });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+module.exports = { applyJob, findSubmissions, deleteSubmission, updateSubmission, findUserSubmissions };  
