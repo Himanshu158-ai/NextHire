@@ -42,15 +42,31 @@ exports.signup = async (req, res) => {
             to: user.email,
             subject: "Verify Your Email",
             html: `
-    <h2>Welcome to NextHire</h2>
+    <div style="font-family: Arial, sans-serif">
+      <h2>Welcome to NextHire 🚀</h2>
 
-    <p>Click the button below to verify your email.</p>
+      <p>
+        Click the button below to verify your account.
+      </p>
 
-    <a href="${verificationLink}">
-      Verify Email
-    </a>
+      <a
+        href="${verificationLink}"
+        style="
+          background:#2563eb;
+          color:white;
+          padding:12px 20px;
+          text-decoration:none;
+          border-radius:6px;
+          display:inline-block;
+        "
+      >
+        Verify Email
+      </a>
 
-    <p>This link expires in 5 minutes.</p>
+      <p>
+        This link will expire in 5 minutes.
+      </p>
+    </div>
   `
         });
 
@@ -127,7 +143,7 @@ exports.verifyEmail = async (req, res) => {
             message: "Link Expired",
         });
     }
-    
+
     const user = await User.findById(userId);
 
     if (!user) {

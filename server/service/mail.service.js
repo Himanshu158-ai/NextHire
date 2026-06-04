@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: process.env.GOOGLE_USER,
-    pass: process.env.GOOGLE_APP_PASSWORD,
+    pass: process.env.APP_PASS,
   },
 });
 
@@ -33,3 +33,4 @@ export async function sendEmail({to,subject,text,html}){
     const details = await transporter.sendMail(mailOptions);
     return details;
 }
+
