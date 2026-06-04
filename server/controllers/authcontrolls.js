@@ -21,7 +21,7 @@ exports.signup = async (req, res) => {
         const token = crypto.randomBytes(32).toString("hex");
 
         const verificationLink =
-            `${process.env.CLIENT_URL}/verify-email/${token}`;
+            `${process.env.CLIENT_URI}/verify-email/${token}`;
 
         const user = await User.create({
             name,
