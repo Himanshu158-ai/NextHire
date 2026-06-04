@@ -17,8 +17,10 @@ const Signup = () => {
     try {
       const res = await axios.post(`${API_URL}/api/auth/signup`, { name, email, password, role });
       nevigate('/');
+
       toast.success(res.data.message);
     } catch (error) {
+      console.log(error);
       toast.error(error.response?.data.message || error.message);
     }
   }

@@ -7,6 +7,7 @@ const jobs = require('./routes/Jobs.route.js')
 const profile = require('./routes/Profile.route.js')
 const cookieParser = require("cookie-parser");
 const apply = require('./routes/ApplyJobs.route.js')
+const redisClient = require("./config/redis.config.js")
 
 const app = express();
 
@@ -29,6 +30,9 @@ app.use('/api/apply',apply) //apply
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
+
+redisClient.connect().then(() => console.log("Redis Connected"))
   .catch(err => console.log(err));
 
 app.get("/", (req, res) => {

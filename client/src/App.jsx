@@ -14,6 +14,7 @@ import CreateJob from "./pages/CreateJob";
 import SubmissionList from "./pages/SubmissionList";
 import AboutUs from "./pages/About";
 import PublicRoute from "./components/auth/PublicRoute";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/createjob" element={<RecruiterRoute><CreateJob /></RecruiterRoute>} />
         <Route path="/jobs/submissions/:id" element={<RecruiterRoute><SubmissionList /></RecruiterRoute>} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/verify-email/:token" element={<ProtectedRoute><VerifyEmail /></ProtectedRoute>} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
