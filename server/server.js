@@ -1,6 +1,4 @@
-const dns = require("dns");
 
-dns.setDefaultResultOrder("ipv4first");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -34,8 +32,8 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-redisClient.connect().then(() => console.log("Redis Connected"))
-  .catch(err => console.log(err));
+// redisClient.connect().then(() => console.log("Redis Connected"))
+//   .catch(err => console.log(err));
 
 app.get("/", (req, res) => {
   res.send("NextHire API Running...");

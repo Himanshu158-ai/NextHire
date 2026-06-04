@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto")
 const redis = require("../config/redis.config")
-const { sendEmail } = require("../service/mail.service")
+// const { sendEmail } = require("../service/mail.service")
 
 require("dotenv").config();
 
@@ -18,62 +18,18 @@ exports.signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const token = crypto.randomBytes(32).toString("hex");
-
-        const verificationLink =
-            `${process.env.CLIENT_URI}/verify-email/${token}`;
-
         const user = await User.create({
             name,
             email,
             password: hashedPassword,
             role,
-            isverified: false
         });
 
-        await redis.set(
-            `verify:${token}`,
-            user._id.toString(),
-            { EX: 300 }
-        )
-
-        console.log("sended");
-        await sendEmail({
-            to: user.email,
-            subject: "Verify Your Email",
-            html: `
-    <div style="font-family: Arial, sans-serif">
-      <h2>Welcome to NextHire 🚀</h2>
-
-      <p>
-        Click the button below to verify your account.
-      </p>
-
-      <a
-        href="${verificationLink}"
-        style="
-          background:#2563eb;
-          color:white;
-          padding:12px 20px;
-          text-decoration:none;
-          border-radius:6px;
-          display:inline-block;
-        "
-      >
-        Verify Email
-      </a>
-
-      <p>
-        This link will expire in 5 minutes.
-      </p>
-    </div>
-  `
-        });
-
-        res.status(201).json({
-            message: "registered, Please verify your email",
+        res.json({
+            message: "registered successfully",
             user
-        });
+        })
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });
@@ -92,13 +48,6 @@ exports.login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
-        }
-
-        if (!user.isverified) {
-            return res.status(401).json({
-                success: false,
-                message: "Please verify your email first",
-            });
         }
 
         const token = jwt.sign(
@@ -130,37 +79,37 @@ exports.logout = async (req, res) => {
     res.json({ message: "logout successfully" });
 };
 
-exports.verifyEmail = async (req, res) => {
+// exports.verifyEmail = async (req, res) => {
 
-    const { token } = req.params;
+//     const { token } = req.params;
 
-    const userId =
-        await redis.get(`verify:${token}`);
+//     const userId =
+//         await redis.get(`verify:${token}`);
 
-    if (!userId) {
-        return res.status(400).json({
-            success: false,
-            message: "Link Expired",
-        });
-    }
+//     if (!userId) {
+//         return res.status(400).json({
+//             success: false,
+//             message: "Link Expired",
+//         });
+//     }
 
-    const user = await User.findById(userId);
+//     const user = await User.findById(userId);
 
-    if (!user) {
-        return res.status(404).json({
-            success: false,
-            message: "User not found",
-        });
-    }
+//     if (!user) {
+//         return res.status(404).json({
+//             success: false,
+//             message: "User not found",
+//         });
+//     }
 
-    user.isverified = true;
-    await user.save();
+//     user.isverified = true;
+//     await user.save();
 
-    await redis.del(`verify:${token}`);
+//     await redis.del(`verify:${token}`);
 
-    return res.status(200).json({
-        success: true,
-        message: "Email Verified",
-    });
-};
+//     return res.status(200).json({
+//         success: true,
+//         message: "Email Verified",
+//     });
+// };
 
