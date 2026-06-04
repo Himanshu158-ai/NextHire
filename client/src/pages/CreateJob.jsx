@@ -74,7 +74,7 @@ const CreateJob = () => {
           <svg className="w-8 h-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C12 2 12 10 20 12C12 14 12 22 12 22C12 22 12 14 4 12C12 10 12 2 12 2Z" />
           </svg>
-          HireMe
+          NextHire
         </Link>
 
         {/* Desktop Nav */}

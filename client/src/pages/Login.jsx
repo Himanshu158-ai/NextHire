@@ -39,17 +39,28 @@ const Login = () => {
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-pink-400/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 py-5 bg-white/70 backdrop-blur-lg border-b border-slate-100">
-        <Link to="/" className="flex items-center gap-2 text-2xl font-extrabold text-[#1a1a2e] tracking-tight">
-          <svg className="w-8 h-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
+      <nav className="sticky top-0 z-50 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 md:px-12 py-4 sm:py-5 bg-white/70 backdrop-blur-lg border-b border-slate-100">
+
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-xl sm:text-2xl font-extrabold text-[#1a1a2e] tracking-tight"
+        >
+          <svg className="w-7 h-7 sm:w-8 sm:h-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C12 2 12 10 20 12C12 14 12 22 12 22C12 22 12 14 4 12C12 10 12 2 12 2Z" />
           </svg>
           NextHire
         </Link>
-        <Link to="/signup" className="text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors">
-          Don't have an account?{" "}
-          <span className="text-pink-500 hover:text-pink-600 font-bold ml-1">Sign Up</span>
+
+        <Link
+          to="/signup"
+          className="text-center text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors"
+        >
+          Don't have an account?
+          <span className="text-pink-500 hover:text-pink-600 font-bold ml-1">
+            Sign Up
+          </span>
         </Link>
+
       </nav>
 
       {/* Main */}
