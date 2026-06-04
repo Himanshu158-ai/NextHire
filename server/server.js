@@ -1,3 +1,6 @@
+const dns = require("dns");
+
+dns.setDefaultResultOrder("ipv4first");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -8,7 +11,6 @@ const profile = require('./routes/Profile.route.js')
 const cookieParser = require("cookie-parser");
 const apply = require('./routes/ApplyJobs.route.js')
 const redisClient = require("./config/redis.config.js")
-
 const app = express();
 
 app.use(cookieParser());
@@ -38,6 +40,9 @@ redisClient.connect().then(() => console.log("Redis Connected"))
 app.get("/", (req, res) => {
   res.send("NextHire API Running...");
 });
+
+
+
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port ${process.env.PORT}`);
