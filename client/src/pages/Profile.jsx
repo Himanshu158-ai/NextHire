@@ -8,6 +8,7 @@ const Profile = () => {
 
     const nevigate = useNavigate();
     const _id = localStorage.getItem("userID");
+    const userRole = localStorage.getItem("userRole");
     const [user, setuser] = useState({});
     const [jobs, setjobs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ const Profile = () => {
         const getuser = async () => {
             try {
                 const res = await axios.post(`${API_URL}/api/profile`, { _id });
+                // console.log(res.data.user);
                 setuser(res.data.user);
             } catch (error) {
                 console.log(error.message);
@@ -94,8 +96,8 @@ const Profile = () => {
                     >
                         {user.role === "recruiter" ? "Recruiter" : "Job Seeker"}
                     </span>
-                    <button 
-                        className="text-slate-400 hover:text-red-500 font-bold text-sm transition-colors" 
+                    <button
+                        className="text-slate-400 hover:text-red-500 font-bold text-sm transition-colors"
                         onClick={logout}
                     >
                         Logout
@@ -105,10 +107,10 @@ const Profile = () => {
 
             {/* Main Content */}
             <main className="flex-1 max-w-screen-xl mx-auto w-full px-4 sm:px-6 md:px-12 py-10 z-10">
-                
+
                 {/* Profile Card */}
                 <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] border border-white p-5 sm:p-8 md:p-12 relative overflow-hidden mb-16">
-                    
+
                     {/* Top Section */}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
                         <div className="flex items-center gap-6">
@@ -135,12 +137,12 @@ const Profile = () => {
 
                     {/* Info Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-slate-50 border border-slate-100 rounded-3xl p-6">
-                        
+
                         {/* Education */}
                         <div>
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Education</p>
                             <div className="flex items-center gap-2 text-slate-800 font-bold">
-                                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}/></svg>
+                                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} /></svg>
                                 <span className="truncate">{user.education || "N/A"}</span>
                             </div>
                         </div>
@@ -195,7 +197,7 @@ const Profile = () => {
                 </div>
 
                 {/* Posted Jobs (If any) */}
-                <div className="mb-12">
+                {userRole === "recruiter" && <div className="mb-12">
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-8 text-center md:text-left">
                         {user.role === "recruiter" ? "Your Posted Jobs" : "Your Applications"}
                     </h2>
@@ -216,51 +218,121 @@ const Profile = () => {
                                         className="flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] border border-slate-100/80"
                                     >
                                         <div className="p-5 sm:p-8 flex-1">
+
                                             {/* Header */}
-                                            <div className="flex justify-between items-start mb-6">
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg ${logoColor} shadow-sm`}>
+                                            <div className="flex justify-between items-center gap-2 mb-6">
+
+                                                <div className="flex items-center gap-3 min-w-0">
+                                                    <div
+                                                        className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg ${logoColor} shadow-sm`}
+                                                    >
                                                         {job.company?.charAt(0)?.toUpperCase() || "C"}
                                                     </div>
-                                                    <h3 className="font-bold text-slate-700 text-lg">{job.company || "Company"}</h3>
+
+                                                    <h3 className="font-bold text-slate-700 text-sm sm:text-lg truncate max-w-[140px] sm:max-w-none">
+                                                        {job.company || "Company"}
+                                                    </h3>
                                                 </div>
-                                                <Link to={`/jobs/submissions/${job._id}`} className="text-xs font-bold uppercase tracking-wider text-pink-500 hover:text-pink-600 bg-pink-50 px-3 py-1.5 rounded-lg border border-pink-100">
+
+                                                <Link
+                                                    to={`/jobs/submissions/${job._id}`}
+                                                    className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-pink-500 hover:text-pink-600 bg-pink-50 px-2 sm:px-3 py-1 rounded-lg border border-pink-100 whitespace-nowrap"
+                                                >
                                                     Submissions
                                                 </Link>
+
                                             </div>
 
                                             {/* Title */}
-                                            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-6 line-clamp-1">
+                                            <h2 className="text-lg sm:text-2xl font-extrabold text-slate-900 mb-6 break-words">
                                                 {job.title}
                                             </h2>
 
                                             {/* Details */}
-                                            <div className="grid grid-cols-2 gap-y-4 gap-x-2 text-sm text-slate-600 font-medium mb-8">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2 text-sm text-slate-600 font-medium mb-8">
+
                                                 <div className="flex items-center gap-2">
-                                                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                                    <span className="truncate">{job.location || "Anywhere"}</span>
+                                                    <svg
+                                                        className="w-4 h-4 text-slate-400"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                        />
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                        />
+                                                    </svg>
+
+                                                    <span className="truncate">
+                                                        {job.location || "Anywhere"}
+                                                    </span>
                                                 </div>
+
                                                 <div className="flex items-center gap-2">
-                                                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                    <span>{job.jobType || "Full-time"}</span>
+                                                    <svg
+                                                        className="w-4 h-4 text-slate-400"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                        />
+                                                    </svg>
+
+                                                    <span>
+                                                        {job.jobType || "Full-time"}
+                                                    </span>
                                                 </div>
+
                                             </div>
 
                                             {/* Actions */}
-                                            <div className="flex items-center gap-4 mt-auto">
-                                                <Link to={`/jobs/${job._id}`} className="flex-1">
+                                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-auto">
+
+                                                <Link
+                                                    to={`/jobs/${job._id}`}
+                                                    className="w-full sm:flex-1"
+                                                >
                                                     <button className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-full font-bold text-[14px] transition-all">
                                                         View Job
                                                     </button>
                                                 </Link>
-                                                <button 
-                                                    className="w-12 h-12 rounded-full border border-red-200 text-red-500 hover:bg-red-50 flex items-center justify-center transition-all"
+
+                                                <button
+                                                    className="w-full sm:w-12 h-12 rounded-full border border-red-200 text-red-500 hover:bg-red-50 flex items-center justify-center transition-all"
                                                     onClick={() => deleteJob(job._id)}
                                                     title="Delete Job"
                                                 >
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    <svg
+                                                        className="w-5 h-5"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                        />
+                                                    </svg>
                                                 </button>
+
                                             </div>
+
                                         </div>
                                     </div>
                                 );
@@ -268,6 +340,7 @@ const Profile = () => {
                         </div>
                     )}
                 </div>
+                }
 
             </main>
 
