@@ -117,7 +117,7 @@ const Jobs = () => {
               return (
                 <div
                   key={job._id}
-                  className={`flex flex-col bg-white rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                  className={`flex flex-col bg-white rounded-[2rem] overflow-hidden ${
                     isFeatured 
                       ? "shadow-[0_15px_40px_-15px_rgba(244,114,182,0.3)] border-2 border-pink-100" 
                       : "shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] border border-slate-100/80"
