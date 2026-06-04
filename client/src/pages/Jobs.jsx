@@ -67,11 +67,8 @@ const Jobs = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-700">
-          <Link to="/jobs" className="text-pink-600 transition-colors">Find a Job</Link>
-          <Link to="/companies" className="hover:text-pink-600 transition-colors">Companies</Link>
-          <Link to="/how-it-works" className="hover:text-pink-600 transition-colors">How Its Works</Link>
-          <Link to="/blog" className="hover:text-pink-600 transition-colors">Blog</Link>
-          <Link to="/contact" className="hover:text-pink-600 transition-colors">Contact</Link>
+          <Link to="/jobs" className="text-pink-600 transition-colors">Find Jobs</Link>
+          <Link to="/about" className="hover:text-pink-600 transition-colors">About Us</Link>
         </div>
 
         <Link to="/profile">

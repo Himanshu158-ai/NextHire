@@ -12,20 +12,23 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateJob from "./pages/CreateJob";
 import SubmissionList from "./pages/SubmissionList";
+import AboutUs from "./pages/About";
+import PublicRoute from "./components/auth/PublicRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<PublicRoute><Home /></PublicRoute>} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/editprofile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
         <Route path="/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
         <Route path="/jobs/:id" element={<ProtectedRoute><JobDetails /></ProtectedRoute>} />
         <Route path="/createjob" element={<RecruiterRoute><CreateJob /></RecruiterRoute>} />
         <Route path="/jobs/submissions/:id" element={<RecruiterRoute><SubmissionList /></RecruiterRoute>} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

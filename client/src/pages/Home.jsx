@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 const Home = () => {
   return (
     <div className="min-h-screen bg-[#fafafc] text-slate-700 font-sans selection:bg-pink-200 overflow-x-hidden">
@@ -21,7 +20,6 @@ const Home = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
           <Link to="/jobs" className="hover:text-pink-600 transition-colors">Find Jobs</Link>
-          <Link to="/companies" className="hover:text-pink-600 transition-colors">Companies</Link>
           <Link to="/about" className="hover:text-pink-600 transition-colors">About Us</Link>
         </div>
 
@@ -54,7 +52,7 @@ const Home = () => {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-6 max-w-4xl leading-[1.1]">
           Discover the job that{" "}
           <br className="hidden md:block" />
-          <span className="text-pink-500 underline text-5xl">fits your life.</span>
+          <span className="text-pink-500 text-5xl">fits your life.</span>
         </h1>
 
         <p className="text-base md:text-xl text-slate-500 max-w-2xl mb-12 font-medium leading-relaxed">
@@ -213,29 +211,11 @@ const Home = () => {
         </div>
       </section>
 
-      
+
 
       {/* ── Footer ───────────────────────────────────────────────── */}
       <footer className="border-t border-slate-100 bg-white/50 backdrop-blur-sm px-6 py-12 md:py-16">
         <div className="max-w-screen-xl mx-auto text-center">
-
-          {/* Logo */}
-          <Link to="/" className="inline-flex items-center gap-2 text-xl font-extrabold text-[#1a1a2e] tracking-tight mb-8">
-            <svg className="w-6 h-6 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C12 2 12 10 20 12C12 14 12 22 12 22C12 22 12 14 4 12C12 10 12 2 12 2Z" />
-            </svg>
-            NextHire
-          </Link>
-
-          <div className="grid grid-cols-2 md:flex md:flex-row justify-center gap-y-5 gap-x-4 md:gap-12 mb-10">
-            <Link to="/about" className="text-slate-400 hover:text-pink-500 transition-colors text-sm font-semibold">About Us</Link>
-            <Link to="/careers" className="text-slate-400 hover:text-pink-500 transition-colors text-sm font-semibold">Careers</Link>
-            <Link to="/privacy" className="text-slate-400 hover:text-pink-500 transition-colors text-sm font-semibold">Privacy Policy</Link>
-            <Link to="/contact" className="text-slate-400 hover:text-pink-500 transition-colors text-sm font-semibold">Contact</Link>
-          </div>
-
-          <div className="h-px bg-slate-100 w-full max-w-4xl mx-auto mb-8" />
-
           <p className="text-sm font-semibold text-slate-400">
             © {new Date().getFullYear()} NextHire. All rights reserved.
           </p>
