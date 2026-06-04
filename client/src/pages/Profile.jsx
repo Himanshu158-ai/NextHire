@@ -76,8 +76,8 @@ const Profile = () => {
             <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-pink-400/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
 
             {/* Navbar */}
-            <nav className="relative z-50 flex items-center justify-between px-6 md:px-12 py-6 max-w-screen-2xl mx-auto w-full">
-                <Link to="/" className="flex items-center gap-2 text-2xl font-extrabold text-[#1a1a2e] tracking-tight">
+            <nav className="relative z-50 flex items-center justify-between px-4 sm:px-6 md:px-12 py-6 max-w-screen-2xl mx-auto w-full">
+                <Link to="/" className="flex items-center gap-2 text-xl sm:text-2xl font-extrabold text-[#1a1a2e] tracking-tight">
                     <svg className="w-8 h-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C12 2 12 10 20 12C12 14 12 22 12 22C12 22 12 14 4 12C12 10 12 2 12 2Z" />
                     </svg>
@@ -104,10 +104,10 @@ const Profile = () => {
             </nav>
 
             {/* Main Content */}
-            <main className="flex-1 max-w-screen-xl mx-auto w-full px-6 py-10 z-10">
+            <main className="flex-1 max-w-screen-xl mx-auto w-full px-4 sm:px-6 md:px-12 py-10 z-10">
                 
                 {/* Profile Card */}
-                <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] border border-white p-8 md:p-12 relative overflow-hidden mb-16">
+                <div className="bg-white/90 backdrop-blur-md rounded-[2.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.05)] border border-white p-5 sm:p-8 md:p-12 relative overflow-hidden mb-16">
                     
                     {/* Top Section */}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
@@ -116,7 +116,7 @@ const Profile = () => {
                                 {user.name?.charAt(0)?.toUpperCase() || "U"}
                             </div>
                             <div>
-                                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
                                     {user.name}
                                 </h2>
                                 <p className="text-slate-500 font-medium text-lg flex items-center gap-2 mt-1">
@@ -196,7 +196,7 @@ const Profile = () => {
 
                 {/* Posted Jobs (If any) */}
                 <div className="mb-12">
-                    <h2 className="text-3xl font-extrabold text-slate-900 mb-8 text-center md:text-left">
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-8 text-center md:text-left">
                         {user.role === "recruiter" ? "Your Posted Jobs" : "Your Applications"}
                     </h2>
 
@@ -205,7 +205,7 @@ const Profile = () => {
                             <p className="text-slate-500 text-lg font-medium">No jobs to display here.</p>
                         </div>
                     ) : (
-                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:gap-10">
+                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
                             {jobs.map((job) => {
                                 const colors = ["bg-green-500", "bg-cyan-500", "bg-blue-500", "bg-rose-500", "bg-purple-500", "bg-orange-500"];
                                 const logoColor = colors[job.company?.length % colors.length || 0];
@@ -215,7 +215,7 @@ const Profile = () => {
                                         key={job._id}
                                         className="flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] border border-slate-100/80"
                                     >
-                                        <div className="p-8 flex-1">
+                                        <div className="p-5 sm:p-8 flex-1">
                                             {/* Header */}
                                             <div className="flex justify-between items-start mb-6">
                                                 <div className="flex items-center gap-3">
@@ -230,7 +230,7 @@ const Profile = () => {
                                             </div>
 
                                             {/* Title */}
-                                            <h2 className="text-2xl font-extrabold text-slate-900 mb-6 line-clamp-1">
+                                            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-6 line-clamp-1">
                                                 {job.title}
                                             </h2>
 
@@ -273,7 +273,7 @@ const Profile = () => {
 
             {/* Footer */}
             <footer className="py-6 mt-auto border-t border-slate-100 bg-white/50 backdrop-blur-sm z-10">
-                <div className="max-w-screen-xl mx-auto px-6 text-center">
+                <div className="max-w-screen-xl mx-auto px-4 sm:px-6 md:px-12 text-center">
                     <p className="text-sm font-semibold text-slate-400">
                         © {new Date().getFullYear()} NextHire. All rights reserved.
                     </p>
