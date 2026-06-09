@@ -8,10 +8,12 @@ const Login = () => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const nevigate = useNavigate();
 
   async function send(e) {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post(
         `${API_URL}/api/auth/login`,
@@ -149,9 +151,17 @@ const Login = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-[#111111] hover:bg-black text-white py-3.5 rounded-full text-base font-bold transition-all shadow-md hover:-translate-y-0.5 active:scale-95 mt-2"
+                disabled={loading}
+                className="w-full bg-[#111111] hover:bg-black text-white py-3.5 rounded-full text-base font-bold transition-all shadow-md hover:-translate-y-0.5 active:scale-95 mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Sign In
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Signing In...
+                  </div>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </form>
           </div>
