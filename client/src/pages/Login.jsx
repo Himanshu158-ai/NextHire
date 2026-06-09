@@ -24,7 +24,7 @@ const Login = () => {
         localStorage.setItem("userLogo", JSON.stringify({ name: res.data.user.name }));
         localStorage.setItem("userRole", res.data.user.role);
         nevigate('/jobs');
-        toast.success("Login successfully");
+        toast.success(res.data.message);
       }
     } catch (error) {
       toast.error(error.response?.data.message || error.message);

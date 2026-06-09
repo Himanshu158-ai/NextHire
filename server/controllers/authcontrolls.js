@@ -25,8 +25,22 @@ exports.signup = async (req, res) => {
             role,
         });
 
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.cookie("token", token, {
+            httpOnly: true,     // JS cannot access cookie
+            secure: true,      // true in production (HTTPS)
+            sameSite: "none", // CSRF protection
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
+
         res.json({
             message: "registered successfully",
+            token,
             user
         })
 

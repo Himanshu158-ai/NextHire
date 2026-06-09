@@ -16,9 +16,15 @@ const Signup = () => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API_URL}/api/auth/signup`, { name, email, password, role });
-      nevigate('/');
 
-      toast.success(res.data.message);
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userID", res.data.user._id);
+        localStorage.setItem("userLogo", JSON.stringify({ name: res.data.user.name }));
+        localStorage.setItem("userRole", res.data.user.role);
+        nevigate('/jobs');
+        toast.success(res.data.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data.message || error.message);
@@ -156,8 +162,8 @@ const Signup = () => {
                     type="button"
                     onClick={() => setRole("seeker")}
                     className={`py-2.5 rounded-xl font-bold text-sm transition-all duration-200 ${role === "seeker"
-                        ? "bg-white text-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-slate-100"
-                        : "text-slate-400 hover:text-slate-600"
+                      ? "bg-white text-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-slate-100"
+                      : "text-slate-400 hover:text-slate-600"
                       }`}
                   >
                     Job Seeker
@@ -166,8 +172,8 @@ const Signup = () => {
                     type="button"
                     onClick={() => setRole("recruiter")}
                     className={`py-2.5 rounded-xl font-bold text-sm transition-all duration-200 ${role === "recruiter"
-                        ? "bg-white text-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-slate-100"
-                        : "text-slate-400 hover:text-slate-600"
+                      ? "bg-white text-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-slate-100"
+                      : "text-slate-400 hover:text-slate-600"
                       }`}
                   >
                     Recruiter
